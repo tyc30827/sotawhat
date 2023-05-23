@@ -4,6 +4,9 @@ import sys
 import urllib.error
 import urllib.request
 import warnings
+# python 3 compatible
+if sys.version_info[0] >= 3:
+    import html
 
 import nltk
 from nltk.tokenize import word_tokenize
@@ -15,7 +18,11 @@ try:
 except LookupError:
     nltk.download('punkt')
 
-h = HTMLParser()
+# Deal with the deprecated HTMLParser.unescape for python >= 3.9 if we don't want to downgrade the Python version
+if sys.version_info[0] >= 3 and sys.version_info[1] >= 9:
+    h = html
+else:
+    h = HTMLParser()
 
 AUTHOR_TAG = '<a href="/search/?searchtype=author'
 TITLE_TAG = '<p class="title is-5 mathjax">'
